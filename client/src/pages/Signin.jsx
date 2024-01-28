@@ -21,7 +21,7 @@ export default function Signin() {
       setErrorMessage(null);
       // const baseUrl = process.env.REACT_APP_BASE_URL;
       // const url = `${baseUrl}/signin`;
-      const res = await fetch("http://localhost:8000/api/v1/signin", {
+      const res = await fetch("/api/v1/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
