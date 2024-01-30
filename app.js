@@ -6,6 +6,7 @@ import morgan from "morgan";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.route.js";
+import userRouter from "./routes/user.route.js";
 
 app.use(express.json({ limit: "50mb" }));
 
@@ -23,3 +24,4 @@ app.disable("x-power-by");
 app.use(cookieParser());
 
 app.use("/api/v1", authRouter);
+app.use("/api/user", userRouter);
