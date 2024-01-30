@@ -1,4 +1,4 @@
-import { Alert, Button, TextInput } from "flowbite-react";
+import { Alert, Button, Modal, TextInput } from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,8 +14,11 @@ import {
   updateStart,
   updateSuccess,
   updateFailure,
+  delUserStart,
+  delUserSuccess,
+  delUserFailure,
 } from "../redux/user/userSlice";
-import { toast } from "react-toastify";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 const DashProfile = () => {
   const dispatch = useDispatch();
@@ -28,6 +31,7 @@ const DashProfile = () => {
   const [imageUploading, setImageUploading] = useState(false);
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({});
   const imageRef = useRef();
   const handleImageChange = (e) => {
@@ -111,6 +115,23 @@ const DashProfile = () => {
       dispatch(updateFailure(error.message));
     }
   };
+  const handleDeleteUser = async () => {
+    setShowModal(false);
+    try {
+      dispatch(delUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        dispatch(delUserFailure(data.message));
+      } else {
+        dispatch(delUserSuccess(data));
+      }
+    } catch (error) {
+      dispatch(delUserFailure(data.message));
+    }
+  };
 
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
@@ -184,7 +205,9 @@ const DashProfile = () => {
         </Button>
       </form>
       <div className="flex text-red-500 justify-between mt-5">
-        <span className="cursor-pointer ">Delete account</span>
+        <span className="cursor-pointer" onClick={() => setShowModal(true)}>
+          Delete account
+        </span>
         <span className="cursor-pointer ">Sign out</span>
       </div>
       {updateUserSuccess && (
@@ -198,6 +221,30 @@ const DashProfile = () => {
           {updateUserError}
         </Alert>
       )}
+      <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        popup
+        size="md"
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="w-14 h-14 text-gray-400 dark:teaxt-gray-200 mb-4 mx-auto" />
+            <h3 className="text-lg text-gray-500 dark:teaxt-gray-400 mb-5">
+              Are you sure you want to delete your account?
+            </h3>
+            <div className="flex justify-around">
+              <Button color="failure" onClick={handleDeleteUser}>
+                Yes I'm sure
+              </Button>
+              <Button color="gray" onClick={() => setShowModal(false)}>
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
