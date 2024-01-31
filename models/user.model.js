@@ -29,23 +29,13 @@ const userSchema = new mongoose.Schema(
       default:
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
-
-// Hash the password before saving it to the database
-// userSchema.pre("save", async function (next) {
-//   const user = this;
-//   if (!user.isModified("password")) return next();
-//   try {
-//     const salt = await bcrypt.genSalt(10);
-//     const hash = await bcrypt.hash(user.password, salt);
-//     user.password = hash;
-//     next();
-//   } catch (error) {
-//     return next(error);
-//   }
-// });
 
 // Create a model
 const User = mongoose.model("User", userSchema);

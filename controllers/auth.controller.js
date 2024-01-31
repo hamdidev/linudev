@@ -17,14 +17,14 @@ export const signup = async (req, res, next) => {
       email === "" ||
       password === ""
     ) {
-      return next(ErrorHandler("All feilds are required", 400));
+      return next(ErrorHandler(400, "All feilds are required"));
     }
     if (emailExists) {
-      return next(ErrorHandler("Email already exists", 400));
+      return next(ErrorHandler(400, "Email already exists"));
     }
     if (username > 3) {
       return next(
-        ErrorHandler("Username is too short, it must be 3 chars at least", 403)
+        ErrorHandler(403, "Username is too short, it must be 3 chars at least")
       );
     }
     const newUser = User({
@@ -50,9 +50,13 @@ export const signin = async (req, res, next) => {
     if (!validPassword) {
       next(ErrorHandler(401, "Wrong credentials."));
     }
-    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "50m",
-    });
+    const token = jwt.sign(
+      { id: validUser._id, isAdmin: validUser.isAdmin },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "50m",
+      }
+    );
     const { password: hashedPassword, ...rest } = validUser._doc;
     const expiryDate = new Date(Date.now() + 3600000);
     res
@@ -69,7 +73,10 @@ export const google = async (req, res, next) => {
   try {
     const user = await User.findOne({ email });
     if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+      const token = jwt.sign(
+        { id: user._id, isAdmin: user.isAdmin },
+        process.env.JWT_SECRET
+      );
       const { password, ...rest } = user._doc;
       res
         .cookie("access_token", token, { httpOnly: true })
@@ -89,7 +96,10 @@ export const google = async (req, res, next) => {
         profilePicture: googlePhotoUrl,
       });
       await newUser.save();
-      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+      const token = jwt.sign(
+        { id: newUser._id, isAdmin: newUser.isAdmin },
+        process.env.JWT_SECRET
+      );
       const { password, ...rest } = newUser._doc;
       res
         .cookie("access_token", token, { httpOnly: true })
