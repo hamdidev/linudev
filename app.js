@@ -7,14 +7,10 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
+import postRouter from "./routes/post.route.js";
 
 app.use(express.json({ limit: "50mb" }));
 
-// app.use(
-//   cors({
-//     origin: process.env.ORIGIN,
-//   })
-// );
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -25,3 +21,4 @@ app.use(cookieParser());
 
 app.use("/api/v1", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/post", postRouter);
