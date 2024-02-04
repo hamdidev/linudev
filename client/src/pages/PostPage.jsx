@@ -2,7 +2,7 @@ import { Button, Spinner } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import CallToAction from "../components/CallToAction";
-import Comment from "../components/Comment";
+import Comments from "../components/Comments";
 import { useSelector } from "react-redux";
 
 const PostPage = () => {
@@ -73,7 +73,7 @@ const PostPage = () => {
       <div className="max-w-4xl mx-auto w-full">
         <CallToAction />
       </div>
-      <Comment postId={post._id} />
+      <Comments postId={post._id} />
     </main>
   );
 };
