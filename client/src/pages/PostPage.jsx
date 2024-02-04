@@ -2,12 +2,16 @@ import { Button, Spinner } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import CallToAction from "../components/CallToAction";
+import Comment from "../components/Comment";
+import { useSelector } from "react-redux";
 
 const PostPage = () => {
   const { postSlug } = useParams();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
+
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -41,6 +45,8 @@ const PostPage = () => {
       <h1 className="text-center mt-10 text-3xl p-3 max-w-2xl mx-auto lg:text-5xl">
         {post && post.title}
       </h1>
+
+      <p>by: {currentUser.username}</p>
       <Link
         to={`/search?category=${post && post.category}`}
         className="self-center mt-5"
@@ -67,6 +73,7 @@ const PostPage = () => {
       <div className="max-w-4xl mx-auto w-full">
         <CallToAction />
       </div>
+      <Comment postId={post._id} />
     </main>
   );
 };
