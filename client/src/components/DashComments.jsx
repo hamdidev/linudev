@@ -1,9 +1,7 @@
 import { Button, Modal, Table, TableHeadCell } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { FaCheck, FaTimes } from "react-icons/fa";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const DashCommnets = () => {

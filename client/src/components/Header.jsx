@@ -71,7 +71,7 @@ const Header = () => {
                 {currentUser.email}
               </span>
             </Dropdown.Header>
-            <Link to="/dashboard">
+            <Link to="/dashboard?tab=dash">
               <Dropdown.Item>Dashboard</Dropdown.Item>
               <Dropdown.Divider />
             </Link>
