@@ -15,6 +15,7 @@ import CreatePost from "./pages/CreatePost";
 import UpdatePost from "./pages/UpdatePost";
 import PostPage from "./pages/PostPage";
 import ScrollToTop from "./components/ScrollToTop";
+import Search from "./pages/Search";
 const App = () => {
   return (
     <BrowserRouter>
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/sign-in" element={<Signin />} />
         <Route path="/projects" element={<Projects />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/post/:postSlug" element={<PostPage />} />
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />

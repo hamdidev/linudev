@@ -3,12 +3,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import CallToAction from "../components/CallToAction";
 import Comments from "../components/Comments";
-import { useSelector } from "react-redux";
 import PostCard from "../components/PostCard";
 
 const PostPage = () => {
   const { postSlug } = useParams();
-  const { currentUser } = useSelector((state) => state.user);
+  // const { currentUser } = useSelector((state) => state.user);
   const [post, setPost] = useState(null);
   const [recentPosts, setRecentPosts] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -29,6 +28,7 @@ const PostPage = () => {
           setError(false);
           setLoading(false);
         }
+        console.log(data.posts[0]);
       } catch (error) {
         setError(true);
         setLoading(false);
@@ -65,7 +65,6 @@ const PostPage = () => {
         {post && post.title}
       </h1>
 
-      <p>by: {currentUser.username}</p>
       <Link
         to={`/search?category=${post && post.category}`}
         className="self-center mt-5"
